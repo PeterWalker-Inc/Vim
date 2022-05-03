@@ -66,7 +66,7 @@ set wildmode=list:longest,full " Complete till longest string,
  set laststatus=2
 
 syntax on
-colorscheme dracula
+colorscheme onedark
 " Key Mappings ---------------------------------------------
 " Window Navigation
 noremap <c-h> <c-w><c-h>
@@ -88,7 +88,7 @@ noremap <c-left> gT
 "set autochdir
 "-----------------------------------------------------------------
 " ------------------------- coc-explorer configs ----------------
-" We bind it to <leader>e here, feel free to change this
+" Space e to open explorer
 nmap <space>e :CocCommand explorer<CR>
 "  --------------------------------------------------------------
 " ------------ Light Line Devicons--------------------------------
