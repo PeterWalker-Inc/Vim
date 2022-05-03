@@ -8,31 +8,34 @@ set nocompatible
 
 
 call plug#begin('~/.vim/plugged')
-"NERDTree
-"Plug 'preservim/nerdtree'
-
 " Vim OneDark plugin
 Plug 'joshdick/onedark.vim'
-
 " Dracula color theme
 Plug 'dracula/vim', { 'as': 'dracula' }
-
 " syntax highlighting
 Plug 'sheerun/vim-polyglot'
-
 " Airline
 Plug 'itchyny/lightline.vim'
-
-" ALE
-"Plug 'dense-analysis/ale'
-
+" Vinegar
+Plug 'tpope/vim-vinegar'
 "coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
+"Dev-icons
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
+set encoding=UTF-8
 
-
-
+" coc extensions ----------------------------------------------
+let g:coc_global_extensions = [
+            \'coc-json',
+            \'coc-git',
+            \'coc-clangd',
+            \'coc-snippets',
+            \'coc-pairs',
+            \'coc-tsserver',
+            \'coc-explorer',
+            \]
+" --------------------------------------------------------------
 set autoindent
 set smartindent
 set tabstop=4
@@ -57,15 +60,13 @@ set wildmode=list:longest,full " Complete till longest string,
 " set nowrap
 
 " bottom status bar elimination
-set noshowmode   
+ set noshowmode   
 
 " enabling airline theme to display this is a work around
-set laststatus=2
+ set laststatus=2
 
 syntax on
 colorscheme dracula
-
-
 " Key Mappings ---------------------------------------------
 " Window Navigation
 noremap <c-h> <c-w><c-h>
@@ -77,3 +78,33 @@ noremap <c-l> <c-w><c-l>
 noremap <c-right> gt
 noremap <c-left> gT
 "---------------------------------------------------------------------------------------------
+
+" -------------------------- Netrw Configs ----------------------
+"let g:netrw_banner=0
+"let g:netrw_liststyle=3
+"let g:netrw_browse_split=0
+"let g:netrw_altv=1
+"let g:netrw_winsize = 25
+"set autochdir
+"-----------------------------------------------------------------
+" ------------------------- coc-explorer configs ----------------
+" We bind it to <leader>e here, feel free to change this
+nmap <space>e :CocCommand explorer<CR>
+"  --------------------------------------------------------------
+" ------------ Light Line Devicons--------------------------------
+let g:lightline = {
+        \ 'component_function': {
+        \   'filetype': 'MyFiletype',
+        \   'fileformat': 'MyFileformat',
+        \ } 
+        \ } 
+  
+  function! MyFiletype()
+    return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype . ' ' . WebDevIconsGetFileTypeSymbol() : 'no ft') : ''
+  endfunction
+  
+  function! MyFileformat()
+    return winwidth(0) > 70 ? (&fileformat . ' ' . WebDevIconsGetFileFormatSymbol()) : ''
+  endfunction
+" ----------------------------------------------------------------
+
