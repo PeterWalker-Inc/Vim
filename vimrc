@@ -1,41 +1,7 @@
 "Directory Settings
 set directory=$HOME/.vim/swap//
-
-filetype plugin indent on
-filetype plugin on
-filetype indent on
-set nocompatible
-
-
-call plug#begin('~/.vim/plugged')
-" Vim OneDark plugin
-Plug 'joshdick/onedark.vim'
-" Dracula color theme
-Plug 'dracula/vim', { 'as': 'dracula' }
-" syntax highlighting
-Plug 'sheerun/vim-polyglot'
-" Airline
-Plug 'itchyny/lightline.vim'
-" Vinegar
-Plug 'tpope/vim-vinegar'
-"coc
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Dev-icons
-Plug 'ryanoasis/vim-devicons'
-call plug#end()
 set encoding=UTF-8
-
-" coc extensions ----------------------------------------------
-let g:coc_global_extensions = [
-            \'coc-json',
-            \'coc-git',
-            \'coc-clangd',
-            \'coc-snippets',
-            \'coc-pairs',
-            \'coc-tsserver',
-            \'coc-explorer',
-            \]
-" --------------------------------------------------------------
+set nocompatible
 set autoindent
 set smartindent
 set tabstop=4
@@ -60,14 +26,58 @@ set wildmode=list:longest,full " Complete till longest string,
 " set nowrap
 
 " bottom status bar elimination
- set noshowmode   
+set noshowmode   
 
 " enabling airline theme to display this is a work around
- set laststatus=2
+set laststatus=2
+
+filetype plugin indent on
+filetype plugin on
+filetype indent on
+
+
+call plug#begin('~/.vim/plugged')
+
+" Vim OneDark plugin
+Plug 'joshdick/onedark.vim'
+" Dracula color theme
+Plug 'dracula/vim', { 'as': 'dracula' }
+" syntax highlighting
+Plug 'sheerun/vim-polyglot'
+" Airline
+Plug 'itchyny/lightline.vim'
+" Vinegar
+Plug 'tpope/vim-vinegar'
+"coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Dev-icons
+Plug 'ryanoasis/vim-devicons'
+
+call plug#end()
+
+" coc extensions ----------------------------------------------
+let g:coc_global_extensions = [
+            \'coc-clangd',
+            \'coc-tsserver',
+            \'coc-json',
+            \'coc-git',
+            \'coc-explorer',
+            \'coc-snippets',
+            \'coc-pairs',
+            \]
+" --------------------------------------------------------------
+
+" change the buffer to open directory
+" Terminal can open from where it called
+autocmd BufEnter * silent! lcd %:p:h
 
 syntax on
-colorscheme onedark
+colorscheme dracula
+
+
 " Key Mappings ---------------------------------------------
+
+
 " Window Navigation
 noremap <c-h> <c-w><c-h>
 noremap <c-j> <c-w><c-j>
@@ -77,6 +87,23 @@ noremap <c-l> <c-w><c-l>
 " tab navigation
 noremap <c-right> gt
 noremap <c-left> gT
+
+" Start Terminal
+"open terminal below all splits
+cabbrev bterm bo term
+set termwinsize=10x0
+" End Terminal
+
+" Move lines up and down
+nnoremap <A-Down> :m .+1<CR>==
+nnoremap <A-Up> :m .-2<CR>==
+inoremap <A-Down> <Esc>:m .+1<CR>==gi
+inoremap <A-Up> <Esc>:m .-2<CR>==gi
+vnoremap <A-Down> :m '>+1<CR>gv=gv
+vnoremap <A-Up> :m '<-2<CR>gv=gv
+
+" coc-pairs auto insert cursor on next line
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 "---------------------------------------------------------------------------------------------
 
 " -------------------------- Netrw Configs ----------------------
@@ -87,10 +114,23 @@ noremap <c-left> gT
 "let g:netrw_winsize = 25
 "set autochdir
 "-----------------------------------------------------------------
+
+
 " ------------------------- coc-explorer configs ----------------
+
 " Space e to open explorer
 nmap <space>e :CocCommand explorer<CR>
+" have vim start coc-explorer if vim started with folder
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'CocCommand explorer' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+
+"quit explorer whein it's the last
+autocmd BufEnter * if (winnr("$") == 1 && &filetype == 'coc-explorer') | q | endif
+
+
 "  --------------------------------------------------------------
+
+
 " ------------ Light Line Devicons--------------------------------
 let g:lightline = {
         \ 'component_function': {
