@@ -23,7 +23,7 @@ set wildmode=list:longest,full " Complete till longest string,
 " ---------------------------------------------------------------
 
 " Do not wrap lines. Allow long lines
-" set nowrap
+"set nowrap
 
 " bottom status bar elimination
 set noshowmode   
@@ -46,8 +46,6 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'sheerun/vim-polyglot'
 " Airline
 Plug 'itchyny/lightline.vim'
-" Vinegar
-Plug 'tpope/vim-vinegar'
 "coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 "Dev-icons
@@ -64,6 +62,7 @@ let g:coc_global_extensions = [
             \'coc-explorer',
             \'coc-snippets',
             \'coc-pairs',
+            \'coc-html',
             \]
 " --------------------------------------------------------------
 
@@ -72,7 +71,7 @@ let g:coc_global_extensions = [
 autocmd BufEnter * silent! lcd %:p:h
 
 syntax on
-colorscheme dracula
+colorscheme onedark
 
 
 " Key Mappings ---------------------------------------------
@@ -148,3 +147,5 @@ let g:lightline = {
   endfunction
 " ----------------------------------------------------------------
 
+vmap <space>c "+y
+nmap <space>v "+p
